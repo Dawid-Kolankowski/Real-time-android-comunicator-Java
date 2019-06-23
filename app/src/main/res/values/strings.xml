@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Projekt</string>
+    <string name="name">Email:</string>
+    <string name="title_activity_chat_page">ChatPage</string>
+</resources>
