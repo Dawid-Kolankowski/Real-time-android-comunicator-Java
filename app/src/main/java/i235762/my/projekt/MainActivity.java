@@ -5,7 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         errorTextView = findViewById(R.id.errorTextView);
         mAuth = FirebaseAuth.getInstance();
         newUserButton = findViewById(R.id.newUserButton);
+        FirebaseAuth.getInstance().signOut();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,9 +52,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (mAuth.getCurrentUser() != null) {
-            logIn();
-        }
+
 
     }
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Log.d("aaa",mAuth.getCurrentUser().getUid());
+
                                 logIn();
                             } else {
                                 errorTextView.setText("Zły login lub hasło");
@@ -102,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("/uzytkownicy/" + userid);
         myRef.setValue(user);
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseAuth.getInstance().signOut();
+
+    }
+
 }
 
 

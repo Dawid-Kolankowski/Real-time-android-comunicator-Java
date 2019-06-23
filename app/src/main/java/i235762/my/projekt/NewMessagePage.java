@@ -1,14 +1,16 @@
 package i235762.my.projekt;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +32,6 @@ public class NewMessagePage extends AppCompatActivity {
         recyclerView =  (RecyclerView) findViewById(R.id.newMessageRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         usersList = new ArrayList<User>();
-
         ref = FirebaseDatabase.getInstance().getReference().child("uzytkownicy");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -38,11 +39,12 @@ public class NewMessagePage extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
                    User u = dataSnapshot1.getValue(User.class);
                    usersList.add(u);
-                   Log.d("aaa",usersList.toString());
+
                 }
 
                 adapter = new NewMessageAdapter(NewMessagePage.this,usersList,getIntent().getExtras().getString("uid"),getIntent().getExtras().getString("email"));
                 recyclerView.setAdapter(adapter);
+
             }
 
             @Override
@@ -50,12 +52,19 @@ public class NewMessagePage extends AppCompatActivity {
 
             }
         });
+
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        FirebaseAuth.getInstance().signOut();
+    protected void onResume() {
+        super.onResume();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser==null){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
 
     }
+
+
 }

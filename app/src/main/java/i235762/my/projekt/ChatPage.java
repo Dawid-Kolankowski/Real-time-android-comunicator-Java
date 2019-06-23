@@ -1,5 +1,6 @@
 package i235762.my.projekt;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,7 +59,7 @@ public class ChatPage extends AppCompatActivity {
                 }
                 adapter = new ChatAdapter(ChatPage.this,messageList);
                 recyclerView.setAdapter(adapter);
-                recyclerView.smoothScrollToPosition(adapter.getItemCount() );
+                recyclerView.smoothScrollToPosition(adapter.getItemCount());
                 messageNumber=messageList.size()+1;
             }
             @Override
@@ -72,6 +75,16 @@ public class ChatPage extends AppCompatActivity {
 
         ref.setValue(message);
         invRef.setValue(message);
+
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser==null){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
 
     }
 }
