@@ -4,9 +4,9 @@ package i235762.my.projekt;
 
 
 public class Message {
-    public String message;
-    public String user;
-    public int  messageNumber;
+    private String message;
+    private String user;
+    private int  messageNumber;
 
     Message(){
     }

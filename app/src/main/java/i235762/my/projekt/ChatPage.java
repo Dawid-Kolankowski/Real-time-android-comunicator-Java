@@ -56,7 +56,7 @@ public class ChatPage extends AppCompatActivity {
                 }
                 adapter = new ChatAdapter(ChatPage.this,messageList);
                 recyclerView.setAdapter(adapter);
-                recyclerView.smoothScrollToPosition(adapter.getItemCount() -1);
+                recyclerView.smoothScrollToPosition(adapter.getItemCount() );
                 messageNumber=messageList.size()+1;
             }
             @Override

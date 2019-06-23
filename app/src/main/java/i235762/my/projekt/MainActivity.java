@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     saveUserInDatabase(task.getResult().getUser().getUid(), task.getResult().getUser().getEmail());
                     errorTextView.setText("Zarejerstrowano");
                 } else {
-                    errorTextView.setText("Błąd (hasło minimum 6 znaków lub coś innego)");
+                    errorTextView.setText("Błąd");
                 }
             }
         });
