@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,7 +47,7 @@ public class ChatPage extends AppCompatActivity {
             newMessageSpace.setText("");
             }
         });
-        adapterRef = FirebaseDatabase.getInstance().getReference().child("messages").child(getIntent().getExtras().getString("uid")).child(getIntent().getExtras().getString("reciverUid"));
+        adapterRef = FirebaseDatabase.getInstance().getReference().child("messages").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(getIntent().getExtras().getString("reciverUid"));
         adapterRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -69,9 +70,9 @@ public class ChatPage extends AppCompatActivity {
     }
 
     private void sendMessage(){
-    Message message = new Message(newMessageSpace.getText().toString(),getIntent().getExtras().getString("email"),messageNumber);
-        ref = FirebaseDatabase.getInstance().getReference("/messages/"+getIntent().getExtras().getString("uid")+"/"+getIntent().getExtras().getString("reciverUid")+"/"+messageNumber);
-        invRef = FirebaseDatabase.getInstance().getReference("/messages/"+getIntent().getExtras().getString("reciverUid")+"/"+getIntent().getExtras().getString("uid")+"/"+messageNumber);
+    Message message = new Message(newMessageSpace.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getEmail(),messageNumber);
+        ref = FirebaseDatabase.getInstance().getReference("/messages/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/"+getIntent().getExtras().getString("reciverUid")+"/"+messageNumber);
+        invRef = FirebaseDatabase.getInstance().getReference("/messages/"+getIntent().getExtras().getString("reciverUid")+"/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/"+messageNumber);
 
         ref.setValue(message);
         invRef.setValue(message);
@@ -85,6 +86,6 @@ public class ChatPage extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-
-    }
+        Log.d("uid",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Log.d("email",FirebaseAuth.getInstance().getCurrentUser().getEmail());}
 }

@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     loginClicked();
                     saveUserInDatabase(task.getResult().getUser().getUid(), task.getResult().getUser().getEmail());
-                    errorTextView.setText("Zarejerstrowano");
+                    errorTextView.setText("Zarejestrowano");
                 } else {
                     errorTextView.setText("Błąd");
                 }
@@ -91,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void logIn() {
         Intent intent = new Intent(this, NewMessagePage.class);
-        intent.putExtra("uid",mAuth.getCurrentUser().getUid());
-        intent.putExtra("email",mAuth.getCurrentUser().getEmail());
         startActivity(intent);
     }
 

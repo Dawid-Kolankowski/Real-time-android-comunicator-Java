@@ -71,9 +71,8 @@ public class NewMessageAdapter extends RecyclerView.Adapter<NewMessageAdapter.My
 
 
                     Intent intent = new Intent(v.getContext(),ChatPage.class);
-                    intent.putExtra("uid",currentUserId);
+
                     intent.putExtra("reciverUid",users.get(position).getUid());
-                    intent.putExtra("email",emails);
                     intent.putExtra("reciverEmail",email.getText().toString());
                     v.getContext().startActivity(intent);
                 }

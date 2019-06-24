@@ -36,13 +36,16 @@ public class NewMessagePage extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(usersList.size()>0){
+                    usersList.clear();
+                }
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
                    User u = dataSnapshot1.getValue(User.class);
                    usersList.add(u);
 
                 }
 
-                adapter = new NewMessageAdapter(NewMessagePage.this,usersList,getIntent().getExtras().getString("uid"),getIntent().getExtras().getString("email"));
+                adapter = new NewMessageAdapter(NewMessagePage.this,usersList,FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance().getCurrentUser().getEmail());
                 recyclerView.setAdapter(adapter);
 
             }
